@@ -4,4 +4,12 @@ npx supabase init
 npx supabase start
 npx supabase migration new posts
 npx supabase db reset
-npm i @supabase/supabase-js @supabase/ssr
+npm i @supabase/supabase-js # @supabase/ssr
+gh repo create brancher --public 
+git remote add origin https://github.com/david3xu/brancher.git
+git add .
+git commit -m "add blog posts"
+add github repositories: project settings -> integrations
+npx supabase link 
+supabase password: ZYR0ldV5jREvpooY
+npx supabase db push
