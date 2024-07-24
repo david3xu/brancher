@@ -9,7 +9,11 @@ gh repo create brancher --public
 git remote add origin https://github.com/david3xu/brancher.git
 git add .
 git commit -m "add blog posts"
+git push
 add github repositories: project settings -> integrations
 npx supabase link 
 supabase password: ZYR0ldV5jREvpooY
 npx supabase db push
+
+git checkout -b feat/add-comments
+npx supabase migration new add-comments
