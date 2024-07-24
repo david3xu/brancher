@@ -10,6 +10,8 @@ export default async function Home() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
+  
+
   const { data } = await supabase.from("posts").select("*, comments(*)");
   console.log(`data %o`, data);
   return (
