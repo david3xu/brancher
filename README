@@ -18,3 +18,7 @@ npx supabase db push
 git checkout -b feat/add-comments
 npx supabase migration new add-comments
 git push --set-upstream origin feat/add-comments
+
+git checkout main 
+git stash save 
+git stash pop 
