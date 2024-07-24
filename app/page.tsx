@@ -13,7 +13,7 @@ export default async function Home() {
   const { data } = await supabase.from("posts").select("*, comments(*)");
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <pre>{JSON.stringify({data, cookieJar}, null, 2)}</pre>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </main>
   );
 }

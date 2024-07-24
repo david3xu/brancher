@@ -22,3 +22,6 @@ git push --set-upstream origin feat/add-comments
 git checkout main 
 git stash save 
 git stash pop 
+
+git pull origin main --rebase
+
