@@ -11,6 +11,7 @@ export default async function Home() {
   );
 
   const { data } = await supabase.from("posts").select("*, comments(*)");
+  console.log(`data %o`, data);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <pre>{JSON.stringify(data, null, 2)}</pre>
