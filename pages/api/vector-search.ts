@@ -13,18 +13,23 @@ import { OpenAIStream, StreamingTextResponse } from 'ai'
 import { ApplicationError, UserError } from '@/lib/errors'
 import { OpenAI } from 'openai'
 
-const openAiKey = 'ollama'
+const openAiKey = process.env.OPENAI_API_KEY
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const openaiLlamaCppUrl = process.env.OPENAI_LLAMA_CPP_URL
+const openaiOllamaUrl = process.env.OPENAI_OLLAMA_URL
+
 
 // const config = new Configuration({
 //   apiKey: openAiKey,
 // })
 // const openai = new OpenAIApi(config)
+
+// baseURL: 'http://10.128.138.175:11434/v1',
+// baseURL: 'http://10.128.138.175:8080/v1',
 const openai = new OpenAI({
-  apiKey: 'ollama',
-  // baseURL: 'http://10.128.138.175:11434/v1',
-  baseURL: 'http://10.128.138.175:8080/v1',
+  apiKey: openAiKey,
+  baseURL: openaiLlamaCppUrl
 })
 
 export const runtime = 'edge'
@@ -164,11 +169,13 @@ export default async function handler(req: NextRequest) {
       content: prompt,
     }
 
+    // baseURL: 'http://10.128.138.175:8000/v1/',
+    // baseURL: 'http://10.128.138.175:11434/v1/',
+    // baseURL: "http://host.docker.internal:11434/v1/",
+
     const openai_ollama = new OpenAI({
-      apiKey: 'ollama',
-      // baseURL: 'http://10.128.138.175:8000/v1/',
-      baseURL: 'http://10.128.138.175:11434/v1/',
-      // baseURL: "http://host.docker.internal:11434/v1/",
+      apiKey: openAiKey,
+      baseURL: openaiOllamaUrl,
     });
 
     const response = await openai_ollama.chat.completions.create({
