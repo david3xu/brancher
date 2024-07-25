@@ -24,4 +24,5 @@ git stash save
 git stash pop 
 
 git pull origin main --rebase
+npx supabase db push
 
