@@ -14,7 +14,8 @@ import { Input } from '@/components/ui/input'
 import { useCompletion } from 'ai/react'
 import { X, Loader, User, Frown, CornerDownLeft, Search, Wand } from 'lucide-react'
 
-export function SearchDialog() {
+// export function SearchDialog() {
+const SearchDialog: React.FC = () => {
   const [open, setOpen] = React.useState(false)
   const [query, setQuery] = React.useState<string>('')
 
@@ -166,8 +167,17 @@ export function SearchDialog() {
   )
 }
 
-// Default export
-export default SearchDialog
+const HomePage: React.FC = () => {
+  return (
+    <div>
+      <h1>Welcome to the Home Page</h1>
+      <SearchDialog />
+      {/* Other page content */}
+    </div>
+  );
+};
+
+export default HomePage;
 
 
 
