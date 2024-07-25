@@ -14,8 +14,8 @@ import { Input } from '@/components/ui/input'
 import { useCompletion } from 'ai/react'
 import { X, Loader, User, Frown, CornerDownLeft, Search, Wand } from 'lucide-react'
 
-// export function SearchDialog() {
-const HomePage: React.FC = () => {
+export function SearchDialog() {
+// const SearchDialogue: React.FC = () => {
   const [open, setOpen] = React.useState(false)
   const [query, setQuery] = React.useState<string>('')
 
@@ -80,7 +80,7 @@ const HomePage: React.FC = () => {
           <DialogHeader>
             <DialogTitle>OpenAI compatibility powered doc search</DialogTitle>
             <DialogDescription>
-              Build your own ChatGPT style search with Next.js, OpenAI & Supabase.
+              Build your own ChatGPT style search with Next.js, Ollama & Supabase.
             </DialogDescription>
             <hr />
             <button className="absolute top-0 right-2 p-2" onClick={() => setOpen(false)}>
@@ -167,7 +167,7 @@ const HomePage: React.FC = () => {
   )
 }
 
-export default HomePage;
+// export default HomePage;
 
 
 
