@@ -15,7 +15,7 @@ import { useCompletion } from 'ai/react'
 import { X, Loader, User, Frown, CornerDownLeft, Search, Wand } from 'lucide-react'
 
 // export function SearchDialog() {
-const SearchDialog: React.FC = () => {
+const HomePage: React.FC = () => {
   const [open, setOpen] = React.useState(false)
   const [query, setQuery] = React.useState<string>('')
 
@@ -166,16 +166,6 @@ const SearchDialog: React.FC = () => {
     </>
   )
 }
-
-const HomePage: React.FC = () => {
-  return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      <SearchDialog />
-      {/* Other page content */}
-    </div>
-  );
-};
 
 export default HomePage;
 
