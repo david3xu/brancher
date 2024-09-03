@@ -12,21 +12,16 @@ import GPT3Tokenizer from 'gpt3-tokenizer'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 import { ApplicationError, UserError } from '@/lib/errors'
 import { OpenAI } from 'openai'
+import ollama from "ollama"
+
 
 const openAiKey = process.env.OPENAI_API_KEY
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 const openaiLlamaCppUrl = process.env.OPENAI_LLAMA_CPP_URL
 const openaiOllamaUrl = process.env.OPENAI_OLLAMA_URL
 
 
-// const config = new Configuration({
-//   apiKey: openAiKey,
-// })
-// const openai = new OpenAIApi(config)
-
-// baseURL: 'http://10.128.138.175:11434/v1',
-// baseURL: 'http://10.128.138.175:8080/v1',
 const openai = new OpenAI({
   apiKey: openAiKey,
   baseURL: openaiLlamaCppUrl
@@ -64,51 +59,33 @@ export default async function handler(req: NextRequest) {
 
     // Moderate the content to comply with OpenAI T&C
     const sanitizedQuery = query.trim().replace(/[\r\n]+/g, ' ')
-    // const moderationResponse: CreateModerationResponse = await openai
-    //   .createModeration({ input: sanitizedQuery })
-    //   .then((res) => res.json())
 
-    // const [results] = moderationResponse.results
 
-    // if (results.flagged) {
-    //   throw new UserError('Flagged content', {
-    //     flagged: true,
-    //     categories: results.categories,
+    const embeddingResponse = await ollama.embeddings({
+      // model: "nomic-embed-text:latest",
+      // model: "snowflake-arctic-embed:335m",
+      model: "mxbai-embed-large:latest",
+      prompt: sanitizedQuery,
+    });
+
+    // const { error: matchError, data: pageSections } = await supabaseClient.rpc(
+    //   'match_page_sections',
+    //   {
+    //     embedding: embeddingResponse.embedding,
+    //     match_threshold: 0.20,
+    //     match_count: 10,
+    //     min_content_length: 50,
     //   })
-    // }
-
-    // Create embedding from query
-    // const embeddingResponse = await openai.createEmbedding({
-    //   model: 'text-embedding-ada-002',
-    //   input: sanitizedQuery.replaceAll('\n', ' '),
-    // })
-
-    const embeddingResponse = await openai.embeddings.create({
-      model: 'nomic-embed-text:latest',
-      input: sanitizedQuery,
-    })
-
-    // console.log(`embeddingResponse: ${JSON.stringify(embeddingResponse)}`)
-
-    // if (embeddingResponse.status !== 200) {
-    //   throw new ApplicationError('Failed to create embedding for question', embeddingResponse)
-    // }
-
-    // const {
-    //   data: [{ embedding }],
-    // }: CreateEmbeddingResponse = await embeddingResponse
-    const [responseData] = embeddingResponse.data
-    console.log(`responseData: ${JSON.stringify(responseData.embedding)}`)
-
-    // console.log(`embedding: ${embedding}`)
 
     const { error: matchError, data: pageSections } = await supabaseClient.rpc(
-      'match_page_sections',
+      // 'match_page_sections',
+      'hybrid_search',
       {
-        embedding: responseData.embedding,
-        match_threshold: 0.20,
-        match_count: 10,
-        min_content_length: 50,
+        in_query: sanitizedQuery,
+        in_embedding: embeddingResponse.embedding,
+        // similarity: 0.20,
+        in_match_count: 10,
+        // min_content_length: 50,
       })
 
     console.log(`pageSections: ${JSON.stringify(pageSections)}`)
@@ -179,7 +156,7 @@ export default async function handler(req: NextRequest) {
     });
 
     const response = await openai_ollama.chat.completions.create({
-      model: 'cira-dpo-llama2:latest',
+      model: 'llama3.1:latest',
       messages: [chatMessage],
       max_tokens: 512,
       temperature: 0,

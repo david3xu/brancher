@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 10.128.138.175",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -43,6 +43,7 @@
     "micromark-extension-mdxjs": "^3.0.0",
     "next": "14.2.5",
     "node-llama-cpp": "^2.8.12",
+    "ollama": "^0.5.8",
     "openai": "4.52.7",
     "openai-edge": "^1.2.2",
     "react": "^18.3.1",
